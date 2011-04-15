@@ -7,7 +7,7 @@ If all you want is to use the gem can install it with the following command:
 
     gem install contextio
 
-You can get more information at [http://context.io](http://context.io).  Complete API documentation is available at [http://developer.context.io](http://developer.context.io).
+You can get more information at [http://context.io](http://context.io).  Complete API documentation is available at [http://context.io/docs/1.1/](http://context.io/docs/1.1/).
 
 An example
 ----------
