@@ -34,6 +34,10 @@ module ContextIO
       get 'filesearch', options
     end
 
+    def message_headers(options)
+      get 'messageheaders', options
+    end
+
     def message_info(options)
       get 'messageinfo', options
     end
