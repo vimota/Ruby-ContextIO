@@ -2,7 +2,7 @@ require 'oauth'
 require 'net/http'
 
 module ContextIO
-  VERSION = "1.0"
+  VERSION = "1.1"
 
   class ContextIO::Connection
     def initialize(key='', secret='', server='https://api.context.io')
@@ -16,6 +16,14 @@ module ContextIO
 
     def all_files(options)
       get 'allfiles', {:since => 0}.merge(options)
+    end
+
+    def addresses(options)
+      get 'addresses', options
+    end
+
+    def contact_search(options)
+      get 'contactsearch', options
     end
 
     def contact_files(options)
@@ -62,6 +70,10 @@ module ContextIO
       get 'imap/discover', options
     end
 
+    def account_info(options)
+      get 'imap/accountinfo', options
+    end
+
     def add_account(options)
       get 'imap/addaccount', options
     end
@@ -72,6 +84,10 @@ module ContextIO
 
     def remove_account
       get 'imap/removeaccount'
+    end
+
+    def oauth_providers
+      get 'imap/oauthproviders'
     end
 
     def reset_status
