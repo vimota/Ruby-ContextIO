@@ -2,13 +2,13 @@
 
 Gem::Specification.new do |s|
   s.name = %q{contextio}
-  s.version = "0.2.0"
+  s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Gary Haran"]
-  s.date = %q{2011-06-27}
+  s.authors = ["Gary Haran", "Dominik Gehl"]
+  s.date = %q{2011-07-08}
   s.email = %q{gary.haran@gmail.com}
-  s.files = ["lib/contextio.rb", "Rakefile", "README.textile"]
+  s.files = ["lib/contextio.rb", "Rakefile", "README.md", "README.textile"]
   s.homepage = %q{http://context.io/}
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.5.1}
