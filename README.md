@@ -7,7 +7,7 @@ If all you want is to use the gem can install it with the following command:
 
     gem install contextio
 
-You can get more information at [http://context.io](http://context.io).  Complete API documentation is available at [http://context.io/docs/1.1/](http://context.io/docs/1.1/).
+You can get more information at [http://context.io](http://context.io).  Complete API documentation is available at [http://context.io/docs/2.0/](http://context.io/docs/2.0/).
 
 An example
 ----------
@@ -20,7 +20,7 @@ An example
     account = 'your account name... probably just your email'
 
     connection = ContextIO::Connection.new(key, secret)
-    messages = connection.all_messages(:account => account, :since => (Time.now - 24 * 60 * 60 * 5))
+    messages = connection.list_messages(:account => account, :since => (Time.now - 24 * 60 * 60 * 5))
     puts JSON.parse(messages)['data'].first['subject']
 
 LICENSE

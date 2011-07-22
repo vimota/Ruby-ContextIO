@@ -13,6 +13,14 @@ describe ContextIO::Connection do
     @connection = ContextIO::Connection.new(@key, @secret)
   end
 
+  it "should call discovery" do
+    email = 'example.@gmail.com'
+    OAuth::AccessToken.any_instance.expects(:get).once
+          .with("/2.0/discovery?email=#{since}&source=imap", "Accept" => "application/json")
+          .returns(stub(:body => '{"data": {}}'))
+    @connection.discovery(:email => email)
+  end
+
   it "should call addresses.json" do
     OAuth::AccessToken.any_instance.expects(:get).once
           .with("/1.1/addresses.json?account=#{@account}", "Accept" => "application/json")

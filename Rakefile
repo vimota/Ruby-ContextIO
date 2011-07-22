@@ -4,10 +4,10 @@ require 'rake'
 require 'rake/gempackagetask'
 
 GEM = "contextio"
-GEM_VERSION = "0.3.0"
+GEM_VERSION = "0.4.0"
 SUMMARY = "Provides interface for Context.IO email"
-AUTHOR = "Gary Haran"
-EMAIL = "gary.haran@gmail.com"
+AUTHOR = "Dominik Gehl"
+EMAIL = "dominik@context.io"
 HOMEPAGE = "http://context.io/"
 
 task :default => [:test]
