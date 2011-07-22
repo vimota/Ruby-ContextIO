@@ -104,6 +104,10 @@ module ContextIO
       get "accounts/#{options[:account]}/files/#{options[:file_id]}"
     end
 
+    def get_file_content(options)
+      get "accounts/#{options[:account]}/files/#{options[:file_id]}/content"
+    end
+
     def get_file_changes(options)
       if ! options.has_key?(:account) then
         raise ArgumentError, "missing required argument account", caller
@@ -238,10 +242,6 @@ module ContextIO
       end
       delete "accounts/#{options[:account]}/sources/#{options[:webhook_id]}"
     end
-
-#    def download_file(options)
-#      @token.get "/#{ContextIO::VERSION}/downloadfile?#{parametrize options}"
-#    end
 
     private
 
