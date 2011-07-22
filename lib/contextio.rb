@@ -290,6 +290,21 @@ module ContextIO
       end
     end
 
+    def add_account(options)
+      if ! options.has_key?(:email) then
+        raise ArgumentError, "missing required argument email", caller
+      end
+      post "accounts", options
+    end
+
+    def modify_account(options)
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      account = options.delete(:account)
+      put "accounts/#{account}", options
+    end
+
     def get_account(options)
       if ! options.has_key?(:account) then
         raise ArgumentError, "missing required argument account", caller
@@ -305,8 +320,41 @@ module ContextIO
       get "accounts/#{options[:account]}/email_addresses"
     end
 
+    def add_email_address_to_account(options)
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      if ! options.has_key?(:email_address) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      account = options.delete(:account)
+      post "accounts/#{account}/email_addresses", options
+    end
+
     def list_accounts(options)
       get "accounts", options
+    end
+
+    def modify_source(options)
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      if ! options.has_key?(:label) then
+        raise ArgumentError, "missing required argument label", caller
+      end
+      account = options.delete(:account)
+      label = options.delete(:label)
+      put "accounts/#{account}/sources/#{label}", options
+    end
+
+    def reset_source_status(options)
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      if ! options.has_key?(:label) then
+        raise ArgumentError, "missing required argument label", caller
+      end
+      put "accounts/#{options[:account]}/sources/#{options[:label]}", { :status => 1 }
     end
 
     def list_sources(options)
@@ -326,6 +374,17 @@ module ContextIO
       get "accounts/#{options[:account]}/sources/#{options[:label]}"
     end
 
+    def add_source(options)
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      if ! options.has_key?(:type) then
+        options[:type] = 'imap'
+      end
+      account = options.delete(:account)
+      post "accounts/#{account}/sources", options
+    end
+
     def delete_source(options)
       if ! options.has_key?(:account) then
         raise ArgumentError, "missing required argument account", caller
@@ -336,6 +395,16 @@ module ContextIO
       delete "accounts/#{options[:account]}/sources/#{options[:label]}"
     end
 
+    def sync_source(options)
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      if ! options.has_key?(:label) then
+        post "accounts/#{options[:account]}/sync"
+      else
+        post "accounts/#{options[:account]}/sources/#{options[:label]}"
+      end
+    end
 
     def get_sync(options)
       if ! options.has_key?(:account) then
@@ -347,6 +416,17 @@ module ContextIO
         get "accounts/#{options[:account]}/sources/#{options[:label]}"
       end
     end
+
+    def add_folder_to_source(options)
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      if ! options.has_key?(:label) then
+        raise ArgumentError, "missing required argument label", caller
+      end
+      put "accounts/#{options[:account]}/sources/#{options[:label]}/folders/#{options[:folder]}"
+    end
+
     def list_source_folders(options)
       if ! options.has_key?(:account) then
         raise ArgumentError, "missing required argument account", caller
@@ -372,6 +452,14 @@ module ContextIO
         raise ArgumentError, "missing required argument webhook_id", caller
       end
       get "accounts/#{options[:account]}/sources/#{options[:webhook_id]}"
+    end
+
+    def add_webhook(options)
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      account = options.delete(:account)
+      post "accounts/#{account}/webhooks", options
     end
 
     def delete_webhook(options)
@@ -400,6 +488,14 @@ module ContextIO
 
     def delete(*args)
       @token.delete(url(*args), { 'Accept' => 'application/json' }).body
+    end
+
+    def put(action, args=nil)
+      @token.put(url(action), args, { 'Accept' => 'application/json' }).body
+    end
+
+    def post(action, args=nil)
+      @token.post(url(action), args, { 'Accept' => 'application/json' }).body
     end
 
     def parametrize(options)
