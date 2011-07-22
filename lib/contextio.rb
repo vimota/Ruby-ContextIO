@@ -483,19 +483,19 @@ module ContextIO
     end
 
     def get(*args)
-      @token.get(url(*args), { 'Accept' => 'application/json' }).body
+      @token.get(url(*args), { 'Accept' => 'application/json' })
     end
 
     def delete(*args)
-      @token.delete(url(*args), { 'Accept' => 'application/json' }).body
+      @token.delete(url(*args), { 'Accept' => 'application/json' })
     end
 
     def put(action, args=nil)
-      @token.put(url(action), args, { 'Accept' => 'application/json' }).body
+      @token.put(url(action), args, { 'Accept' => 'application/json' })
     end
 
     def post(action, args=nil)
-      @token.post(url(action), args, { 'Accept' => 'application/json' }).body
+      @token.post(url(action), args, { 'Accept' => 'application/json' })
     end
 
     def parametrize(options)
