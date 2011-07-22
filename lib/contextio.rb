@@ -19,62 +19,148 @@ module ContextIO
     end
 
     def get_oauth_provider(options)
+      if ! options.has_key?(:consumer_key) then
+        raise ArgumentError, "missing required argument consumer_key", caller
+      end
       get "oauth_providers/#{options[:consumer_key]}"
     end
 
     def list_contacts(options)
-      get "accounts/#{options[:account]}/contacts", options
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      account = options.delete(:account)
+      get "accounts/#{account}/contacts", options
     end
 
     def get_contact(options)
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      if ! options.has_key?(:email) then
+        raise ArgumentError, "missing required argument email", caller
+      end
       get "accounts/#{options[:account]}/contacts/#{options[:email]}"
     end
 
     def list_contact_files(options)
-      get "accounts/#{options[:account]}/contacts/#{options[:email]}/files", options
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      if ! options.has_key?(:email) then
+        raise ArgumentError, "missing required argument email", caller
+      end
+      account = options.delete(:account)
+      email = options.delete(:email)
+      get "accounts/#{account}/contacts/#{email}/files", options
     end
 
     def list_contact_messages(options)
-      get "accounts/#{options[:account]}/contacts/#{options[:email]}/messages", options
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      if ! options.has_key?(:email) then
+        raise ArgumentError, "missing required argument email", caller
+      end
+      account = options.delete(:account)
+      email = options.delete(:email)
+      get "accounts/#{account}/contacts/#{email}/messages", options
     end
 
     def list_contact_threads(options)
-      get "accounts/#{options[:account]}/contacts/#{options[:email]}/threads", options
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      if ! options.has_key?(:email) then
+        raise ArgumentError, "missing required argument email", caller
+      end
+      account = options.delete(:account)
+      email = options.delete(:email)
+      get "accounts/#{account}/contacts/#{email}/threads", options
     end
 
     def list_files(options)
-      get "accounts/#{options[:account]}/files", options
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      account = options.delete(:account)
+      get "accounts/#{account}/files", options
     end
 
     def get_file(options)
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      if ! options.has_key?(:file_id) then
+        raise ArgumentError, "missing required argument file_id", caller
+      end
       get "accounts/#{options[:account]}/files/#{options[:file_id]}"
     end
 
     def get_file_changes(options)
-      get "accounts/#{options[:account]}/files/#{options[:file_id]}/changes", options
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      if ! options.has_key?(:file_id) then
+        raise ArgumentError, "missing required argument file_id", caller
+      end
+      account = options.delete(:account)
+      file_id = options.delete(:file_id)
+      get "accounts/#{account}/files/#{file_id}/changes", options
     end
 
     def list_file_revisions(options)
-      get "accounts/#{options[:account]}/files/#{options[:file_id]}/revisions", options
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      if ! options.has_key?(:file_id) then
+        raise ArgumentError, "missing required argument file_id", caller
+      end
+      account = options.delete(:account)
+      file_id = options.delete(:file_id)
+      get "accounts/#{account}/files/#{file_id}/revisions", options
     end
 
     def list_file_related(options)
-      get "accounts/#{options[:account]}/files/#{options[:file_id]}/related", options
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      if ! options.has_key?(:file_id) then
+        raise ArgumentError, "missing required argument file_id", caller
+      end
+      account = options.delete(:account)
+      file_id = options.delete(:file_id)
+      get "accounts/#{account}/files/#{file_id}/related", options
     end
 
     def list_messages(options)
-      get "accounts/#{options[:account]}/messages", options
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      account = options.delete(:account)
+      get "accounts/#{account}/messages", options
     end
 
     def list_threads(options)
-      get "accounts/#{options[:account]}/threads", options
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      account = options.delete(:account)
+      get "accounts/#{account}/threads", options
     end
 
     def get_account(options)
-      get "accounts/#{options[:account]}"
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      account = options.delete(:account)
+      get "accounts/#{account}"
     end
 
     def list_account_email_addresses(options)
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
       get "accounts/#{options[:account]}/email_addresses"
     end
 
@@ -83,22 +169,46 @@ module ContextIO
     end
 
     def list_sources(options)
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
       get "accounts/#{options[:account]}/sources"
     end
 
     def get_source(options)
-      get "accounts/#{options[:account]}/sources/#{options[:source]}"
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      if ! options.has_key?(:label) then
+        raise ArgumentError, "missing required argument label", caller
+      end
+      get "accounts/#{options[:account]}/sources/#{options[:label]}"
     end
 
     def list_source_folders(options)
-      get "accounts/#{options[:account]}/sources/#{options[:source]}/folders"
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      if ! options.has_key?(:label) then
+        raise ArgumentError, "missing required argument label", caller
+      end
+      get "accounts/#{options[:account]}/sources/#{options[:label]}/folders"
     end
 
     def list_webhooks(options)
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
       get "accounts/#{options[:account]}/webhooks"
     end
 
     def get_webhook(options)
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      if ! options.has_key?(:webhook_id) then
+        raise ArgumentError, "missing required argument webhook_id", caller
+      end
       get "accounts/#{options[:account]}/sources/#{options[:webhook_id]}"
     end
 
