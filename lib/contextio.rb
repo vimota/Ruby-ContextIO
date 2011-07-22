@@ -25,6 +25,13 @@ module ContextIO
       get "oauth_providers/#{options[:consumer_key]}"
     end
 
+    def delete_oauth_provider(options)
+      if ! options.has_key?(:consumer_key) then
+        raise ArgumentError, "missing required argument consumer_key", caller
+      end
+      delete "oauth_providers/#{options[:consumer_key]}"
+    end
+
     def list_contacts(options)
       if ! options.has_key?(:account) then
         raise ArgumentError, "missing required argument account", caller
@@ -185,6 +192,16 @@ module ContextIO
       get "accounts/#{options[:account]}/sources/#{options[:label]}"
     end
 
+    def delete_source(options)
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      if ! options.has_key?(:label) then
+        raise ArgumentError, "missing required argument label", caller
+      end
+      delete "accounts/#{options[:account]}/sources/#{options[:label]}"
+    end
+
     def list_source_folders(options)
       if ! options.has_key?(:account) then
         raise ArgumentError, "missing required argument account", caller
@@ -212,6 +229,16 @@ module ContextIO
       get "accounts/#{options[:account]}/sources/#{options[:webhook_id]}"
     end
 
+    def delete_webhook(options)
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      if ! options.has_key?(:webhook_id) then
+        raise ArgumentError, "missing required argument webhook_id", caller
+      end
+      delete "accounts/#{options[:account]}/sources/#{options[:webhook_id]}"
+    end
+
 #    def download_file(options)
 #      @token.get "/#{ContextIO::VERSION}/downloadfile?#{parametrize options}"
 #    end
@@ -228,6 +255,10 @@ module ContextIO
 
     def get(*args)
       @token.get(url(*args), "Accept" => "application/json").body
+    end
+
+    def delete(*args)
+      @token.delete(url(*args), "Accept" => "application/json").body
     end
 
     def parametrize(options)
