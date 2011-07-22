@@ -117,7 +117,6 @@ module ContextIO
     end
 
     def get(*args)
-      puts url(*args)
       @token.get(url(*args), "Accept" => "application/json").body
     end
 
