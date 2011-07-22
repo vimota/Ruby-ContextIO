@@ -47,7 +47,7 @@ module ContextIO
       if ! options.has_key?(:email) then
         raise ArgumentError, "missing required argument email", caller
       end
-      get "accounts/#{options[:account]}/contacts/#{options[:email]}"
+      get "accounts/#{options[:account]}/contacts/#{URI.escape options[:email]}"
     end
 
     def list_contact_files(options)
@@ -58,7 +58,7 @@ module ContextIO
         raise ArgumentError, "missing required argument email", caller
       end
       account = options.delete(:account)
-      email = options.delete(:email)
+      email = URI.escape(options.delete(:email))
       get "accounts/#{account}/contacts/#{email}/files", options
     end
 
@@ -70,7 +70,7 @@ module ContextIO
         raise ArgumentError, "missing required argument email", caller
       end
       account = options.delete(:account)
-      email = options.delete(:email)
+      email = URI.escape(options.delete(:email))
       get "accounts/#{account}/contacts/#{email}/messages", options
     end
 
@@ -82,7 +82,7 @@ module ContextIO
         raise ArgumentError, "missing required argument email", caller
       end
       account = options.delete(:account)
-      email = options.delete(:email)
+      email = URI.escape(options.delete(:email))
       get "accounts/#{account}/contacts/#{email}/threads", options
     end
 
@@ -159,7 +159,7 @@ module ContextIO
 
       account = options.delete(:account)
       if options.has_key?(:email_message_id) then
-        email_message_id = options.delete(:email_message_id)
+        email_message_id = URI.escape(options.delete(:email_message_id))
         get "accounts/#{account}/messages/#{email_message_id}"
       elsif options.has_key?(:message_id) then
         message_id = options.delete(:message_id)
@@ -181,7 +181,7 @@ module ContextIO
 
       account = options.delete(:account)
       if options.has_key?(:email_message_id) then
-        email_message_id = options.delete(:email_message_id)
+        email_message_id = URI.escape(options.delete(:email_message_id))
         get "accounts/#{account}/messages/#{email_message_id}/headers"
       elsif options.has_key?(:message_id) then
         message_id = options.delete(:message_id)
@@ -203,7 +203,7 @@ module ContextIO
 
       account = options.delete(:account)
       if options.has_key?(:email_message_id) then
-        email_message_id = options.delete(:email_message_id)
+        email_message_id = URI.escape(options.delete(:email_message_id))
         get "accounts/#{account}/messages/#{email_message_id}/flags"
       elsif options.has_key?(:message_id) then
         message_id = options.delete(:message_id)
@@ -225,7 +225,7 @@ module ContextIO
 
       account = options.delete(:account)
       if options.has_key?(:email_message_id) then
-        email_message_id = options.delete(:email_message_id)
+        email_message_id = URI.escape(options.delete(:email_message_id))
         get "accounts/#{account}/messages/#{email_message_id}/body"
       elsif options.has_key?(:message_id) then
         message_id = options.delete(:message_id)
@@ -246,7 +246,7 @@ module ContextIO
       end
 
       if options.has_key?(:email_message_id) then
-        get "accounts/#{options[:account]}/messages/#{options[:email_message_id]}/thread"
+        get "accounts/#{options[:account]}/messages/#{URI.escape options[:email_message_id]}/thread"
       elsif options.has_key?(:message_id) then
         get "accounts/#{options[:account]}/messages/#{options[:message_id]}/thread"
       elsif options.has_key?(:gmail_message_id) then
@@ -272,7 +272,7 @@ module ContextIO
       end
 
       if options.has_key?(:email_message_id) then
-        get "accounts/#{options[:account]}/messages/#{options[:email_message_id]}/thread"
+        get "accounts/#{options[:account]}/messages/#{URI.escape options[:email_message_id]}/thread"
       elsif options.has_key?(:message_id) then
         get "accounts/#{options[:account]}/messages/#{options[:message_id]}/thread"
       elsif options.has_key?(:gmail_message_id) then
@@ -343,7 +343,7 @@ module ContextIO
         raise ArgumentError, "missing required argument label", caller
       end
       account = options.delete(:account)
-      label = options.delete(:label)
+      label = URI.escape(options.delete(:label))
       put "accounts/#{account}/sources/#{label}", options
     end
 
@@ -354,7 +354,7 @@ module ContextIO
       if ! options.has_key?(:label) then
         raise ArgumentError, "missing required argument label", caller
       end
-      put "accounts/#{options[:account]}/sources/#{options[:label]}", { :status => 1 }
+      put "accounts/#{options[:account]}/sources/#{URI.escape options[:label]}", { :status => 1 }
     end
 
     def list_sources(options)
@@ -371,7 +371,7 @@ module ContextIO
       if ! options.has_key?(:label) then
         raise ArgumentError, "missing required argument label", caller
       end
-      get "accounts/#{options[:account]}/sources/#{options[:label]}"
+      get "accounts/#{options[:account]}/sources/#{URI.escape options[:label]}"
     end
 
     def add_source(options)
@@ -392,7 +392,7 @@ module ContextIO
       if ! options.has_key?(:label) then
         raise ArgumentError, "missing required argument label", caller
       end
-      delete "accounts/#{options[:account]}/sources/#{options[:label]}"
+      delete "accounts/#{options[:account]}/sources/#{URI.escape options[:label]}"
     end
 
     def sync_source(options)
@@ -402,7 +402,7 @@ module ContextIO
       if ! options.has_key?(:label) then
         post "accounts/#{options[:account]}/sync"
       else
-        post "accounts/#{options[:account]}/sources/#{options[:label]}"
+        post "accounts/#{options[:account]}/sources/#{URI.escape options[:label]}"
       end
     end
 
@@ -413,7 +413,7 @@ module ContextIO
       if ! options.has_key?(:label) then
         get "accounts/#{options[:account]}/sync"
       else
-        get "accounts/#{options[:account]}/sources/#{options[:label]}"
+        get "accounts/#{options[:account]}/sources/#{URI.escape options[:label]}"
       end
     end
 
@@ -424,7 +424,7 @@ module ContextIO
       if ! options.has_key?(:label) then
         raise ArgumentError, "missing required argument label", caller
       end
-      put "accounts/#{options[:account]}/sources/#{options[:label]}/folders/#{options[:folder]}"
+      put "accounts/#{options[:account]}/sources/#{URI.escape options[:label]}/folders/#{URI.escape options[:folder]}"
     end
 
     def list_source_folders(options)
@@ -434,7 +434,7 @@ module ContextIO
       if ! options.has_key?(:label) then
         raise ArgumentError, "missing required argument label", caller
       end
-      get "accounts/#{options[:account]}/sources/#{options[:label]}/folders"
+      get "accounts/#{options[:account]}/sources/#{URI.escape options[:label]}/folders"
     end
 
     def list_webhooks(options)
