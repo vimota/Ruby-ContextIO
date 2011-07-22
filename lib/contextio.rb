@@ -395,11 +395,11 @@ module ContextIO
     end
 
     def get(*args)
-      @token.get(url(*args), "Accept" => "application/json").body
+      @token.get(url(*args), { 'Accept' => 'application/json' }).body
     end
 
     def delete(*args)
-      @token.delete(url(*args), "Accept" => "application/json").body
+      @token.delete(url(*args), { 'Accept' => 'application/json' }).body
     end
 
     def parametrize(options)
