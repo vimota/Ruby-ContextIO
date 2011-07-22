@@ -152,12 +152,142 @@ module ContextIO
       get "accounts/#{account}/messages", options
     end
 
+    def get_message(options)
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+
+      account = options.delete(:account)
+      if options.has_key?(:email_message_id) then
+        email_message_id = options.delete(:email_message_id)
+        get "accounts/#{account}/messages/#{email_message_id}"
+      elsif options.has_key?(:message_id) then
+        message_id = options.delete(:message_id)
+        get "accounts/#{account}/messages/#{message_id}"
+      elsif options.has_key?(:gmail_message_id) then
+        gmail_message_id = options.delete(:gmail_message_id)
+        if options[:gmail_message_id].start_with?('gm-') then
+          get "accounts/#{account}/messages/#{gmail_message_id}"
+        else
+          get "accounts/#{account}/messages/gm-#{gmail_message_id}"
+        end
+      end
+    end
+
+    def get_message_headers(options)
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+
+      account = options.delete(:account)
+      if options.has_key?(:email_message_id) then
+        email_message_id = options.delete(:email_message_id)
+        get "accounts/#{account}/messages/#{email_message_id}/headers"
+      elsif options.has_key?(:message_id) then
+        message_id = options.delete(:message_id)
+        get "accounts/#{account}/messages/#{message_id}/headers"
+      elsif options.has_key?(:gmail_message_id) then
+        gmail_message_id = options.delete(:gmail_message_id)
+        if options[:gmail_message_id].start_with?('gm-') then
+          get "accounts/#{account}/messages/#{gmail_message_id}/headers"
+        else
+          get "accounts/#{account}/messages/gm-#{gmail_message_id}/headers"
+        end
+      end
+    end
+
+    def get_message_flags(options)
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+
+      account = options.delete(:account)
+      if options.has_key?(:email_message_id) then
+        email_message_id = options.delete(:email_message_id)
+        get "accounts/#{account}/messages/#{email_message_id}/flags"
+      elsif options.has_key?(:message_id) then
+        message_id = options.delete(:message_id)
+        get "accounts/#{account}/messages/#{message_id}/flags"
+      elsif options.has_key?(:gmail_message_id) then
+        gmail_message_id = options.delete(:gmail_message_id)
+        if options[:gmail_message_id].start_with?('gm-') then
+          get "accounts/#{account}/messages/#{gmail_message_id}/flags"
+        else
+          get "accounts/#{account}/messages/gm-#{gmail_message_id}/flags"
+        end
+      end
+    end
+
+    def get_message_body(options)
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+
+      account = options.delete(:account)
+      if options.has_key?(:email_message_id) then
+        email_message_id = options.delete(:email_message_id)
+        get "accounts/#{account}/messages/#{email_message_id}/body"
+      elsif options.has_key?(:message_id) then
+        message_id = options.delete(:message_id)
+        get "accounts/#{account}/messages/#{message_id}/body"
+      elsif options.has_key?(:gmail_message_id) then
+        gmail_message_id = options.delete(:gmail_message_id)
+        if options[:gmail_message_id].start_with?('gm-') then
+          get "accounts/#{account}/messages/#{gmail_message_id}/body"
+        else
+          get "accounts/#{account}/messages/gm-#{gmail_message_id}/body"
+        end
+      end
+    end
+
+    def get_message_thread(options)
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+
+      if options.has_key?(:email_message_id) then
+        get "accounts/#{options[:account]}/messages/#{options[:email_message_id]}/thread"
+      elsif options.has_key?(:message_id) then
+        get "accounts/#{options[:account]}/messages/#{options[:message_id]}/thread"
+      elsif options.has_key?(:gmail_message_id) then
+        if options[:gmail_message_id].start_with?('gm-') then
+          get "accounts/#{options[:account]}/messages/#{options[:gmail_message_id]}/thread"
+        else
+          get "accounts/#{options[:account]}/messages/gm-#{options[:gmail_message_id]}/thread"
+        end
+      end
+    end
+
     def list_threads(options)
       if ! options.has_key?(:account) then
         raise ArgumentError, "missing required argument account", caller
       end
       account = options.delete(:account)
       get "accounts/#{account}/threads", options
+    end
+
+    def get_thread(options)
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+
+      if options.has_key?(:email_message_id) then
+        get "accounts/#{options[:account]}/messages/#{options[:email_message_id]}/thread"
+      elsif options.has_key?(:message_id) then
+        get "accounts/#{options[:account]}/messages/#{options[:message_id]}/thread"
+      elsif options.has_key?(:gmail_message_id) then
+        if options[:gmail_message_id].start_with?('gm-') then
+          get "accounts/#{options[:account]}/messages/#{options[:gmail_message_id]}/thread"
+        else
+          get "accounts/#{options[:account]}/messages/gm-#{options[:gmail_message_id]}/thread"
+        end
+      elsif options.has_key?(:gmail_thread_id) then
+        if options[:gmail_thread_id].start_with?('gm-') then
+          get "accounts/#{options[:account]}/threads/#{options[:gmail_thread_id]}"
+        else
+          get "accounts/#{options[:account]}/threads/gm-#{options[:gmail_thread_id]}"
+        end
+      end
     end
 
     def get_account(options)
@@ -206,6 +336,17 @@ module ContextIO
       delete "accounts/#{options[:account]}/sources/#{options[:label]}"
     end
 
+
+    def get_sync(options)
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      if ! options.has_key?(:label) then
+        get "accounts/#{options[:account]}/sync"
+      else
+        get "accounts/#{options[:account]}/sources/#{options[:label]}"
+      end
+    end
     def list_source_folders(options)
       if ! options.has_key?(:account) then
         raise ArgumentError, "missing required argument account", caller
