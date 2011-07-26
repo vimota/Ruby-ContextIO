@@ -330,6 +330,16 @@ module ContextIO
       delete "accounts/#{account}/email_addresses/#{options[:email_address]}"
     end
 
+    def set_primary_email_address_for_account(options)
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      if ! options.has_key?(:email_address) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      put "accounts/#{account}/email_addresses/#{options[:email_address]}", {:primary => 1}
+    end
+
     def add_email_address_to_account(options)
       if ! options.has_key?(:account) then
         raise ArgumentError, "missing required argument account", caller
