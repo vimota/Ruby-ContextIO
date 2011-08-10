@@ -50,6 +50,19 @@ module ContextIO
       get "oauth_providers/#{options[:consumer_key]}"
     end
 
+    def add_oauth_provider(options)
+      if ! options.has_key?(:provider_consumer_key) then
+        raise ArgumentError, "missing required argument provider_consumer_key", caller
+      end
+      if ! options.has_key?(:type) then
+        raise ArgumentError, "missing required argument type", caller
+      end
+      if ! options.has_key?(:provider_consumer_secret) then
+        raise ArgumentError, "missing required argument provider_consumer_secret", caller
+      end
+      post "oauth_providers/", options
+    end
+
     def delete_oauth_provider(options)
       if ! options.has_key?(:consumer_key) then
         raise ArgumentError, "missing required argument consumer_key", caller
