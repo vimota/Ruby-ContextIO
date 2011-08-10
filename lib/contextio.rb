@@ -468,7 +468,7 @@ module ContextIO
       if ! options.has_key?(:label) then
         post "accounts/#{options[:account]}/sync"
       else
-        post "accounts/#{options[:account]}/sources/#{URI.escape options[:label]}"
+        post "accounts/#{options[:account]}/sources/#{URI.escape options[:label]}/sync"
       end
     end
 
@@ -479,7 +479,7 @@ module ContextIO
       if ! options.has_key?(:label) then
         get "accounts/#{options[:account]}/sync"
       else
-        get "accounts/#{options[:account]}/sources/#{URI.escape options[:label]}"
+        get "accounts/#{options[:account]}/sources/#{URI.escape options[:label]}/sync"
       end
     end
 
