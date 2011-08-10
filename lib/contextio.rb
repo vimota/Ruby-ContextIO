@@ -471,7 +471,7 @@ module ContextIO
       if ! options.has_key?(:webhook_id) then
         raise ArgumentError, "missing required argument webhook_id", caller
       end
-      get "accounts/#{options[:account]}/sources/#{options[:webhook_id]}"
+      get "accounts/#{options[:account]}/webhooks/#{options[:webhook_id]}"
     end
 
     def add_webhook(options)
@@ -489,7 +489,7 @@ module ContextIO
       if ! options.has_key?(:webhook_id) then
         raise ArgumentError, "missing required argument webhook_id", caller
       end
-      delete "accounts/#{options[:account]}/sources/#{options[:webhook_id]}"
+      delete "accounts/#{options[:account]}/webhooks/#{options[:webhook_id]}"
     end
 
     private
