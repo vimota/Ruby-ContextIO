@@ -351,6 +351,14 @@ module ContextIO
       get "accounts/#{account}"
     end
 
+    def delete_account(options)
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      account = options.delete(:account)
+      delete "accounts/#{account}"
+    end
+
     def list_account_email_addresses(options)
       if ! options.has_key?(:account) then
         raise ArgumentError, "missing required argument account", caller
