@@ -14,6 +14,31 @@ module ContextIO
       get 'discovery', {:source => 'imap'}.merge(options)
     end
 
+    def list_connect_tokens()
+      get 'connect_tokens'
+    end
+
+    def get_connect_token(options)
+      if ! options.has_key?(:token) then
+        raise ArgumentError, "missing required argument token", caller
+      end
+      get "connect_tokens/#{options[:token]}"
+    end
+
+    def add_connect_token(options)
+      if ! options.has_key?(:callback_url) then
+        raise ArgumentError, "missing required argument callback_url", caller
+      end
+      post "connect_tokens", options
+    end
+
+    def delete_connect_token(options)
+      if ! options.has_key?(:token) then
+        raise ArgumentError, "missing required argument token", caller
+      end
+      delete "connect_tokens/#{options[:token]}"
+    end
+
     def list_oauth_providers
       get 'oauth_providers'
     end
