@@ -21,7 +21,7 @@ An example
 
     connection = ContextIO::Connection.new(key, secret)
     messages = connection.list_messages(:account => account, :since => (Time.now - 24 * 60 * 60 * 5))
-    puts JSON.parse(messages)['data'].first['subject']
+    puts JSON.parse(messages.body).first['subject']
 
 LICENSE
 -------
