@@ -11,7 +11,7 @@ module ContextIO
     end
 
     def discovery(options)
-      get 'discovery', {:source => 'imap'}.merge(options)
+      get 'discovery', {:source_type => 'imap'}.merge(options)
     end
 
     def list_connect_tokens()
