@@ -17,7 +17,7 @@ An example
 
     key     = 'the key you get in your developer console'
     secret  = ' the secret you get in your developer console'
-    account = 'your account name... probably just your email'
+    account = 'your account id'
 
     connection = ContextIO::Connection.new(key, secret)
     messages = connection.list_messages(:account => account, :since => (Time.now - 24 * 60 * 60 * 5))
