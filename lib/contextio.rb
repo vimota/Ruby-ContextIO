@@ -143,6 +143,12 @@ module ContextIO
     end
 
     def get_file_content(options)
+      if ! options.has_key?(:account) then
+        raise ArgumentError, "missing required argument account", caller
+      end
+      if ! options.has_key?(:file_id) then
+        raise ArgumentError, "missing required argument file_id", caller
+      end
       get "accounts/#{options[:account]}/files/#{options[:file_id]}/content"
     end
 
