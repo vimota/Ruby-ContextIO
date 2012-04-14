@@ -1,8 +1,9 @@
 require 'oauth'
+require 'json'
 require 'net/http'
 
 module ContextIO
-  VERSION = "1.1"
+  VERSION = "2.0"
 
   class ContextIO::Connection
     def initialize(key='', secret='', server='https://api.context.io')
@@ -10,106 +11,46 @@ module ContextIO
       @token    = OAuth::AccessToken.new @consumer
     end
 
-    def all_messages(options)
-      get 'allmessages', {:limit => 10, :since => 0}.merge(options)
+    def createWebhook(accountId, parameters)
+      post accountId, 'webhooks', parameters
     end
 
-    def all_files(options)
-      get 'allfiles', {:since => 0}.merge(options)
+    def listWebhooks(accountId)
+      get accountId, 'webhooks'
     end
 
-    def addresses(options)
-      get 'addresses', options
+    def deleteWebhook(accountId, webhook_id)
+      delete accountId, "webhooks/#{webhook_id}"
     end
 
-    def contact_search(options)
-      get 'contactsearch', options
-    end
-
-    def contact_files(options)
-      get 'contactfiles', options
-    end
-
-    def contact_messages(options)
-      get 'contactmessages', options
-    end
-
-    def diff_summary(options)
-      get 'diffsummary', options
-    end
-
-    def file_search(options)
-      get 'filesearch', options
-    end
-
-    def message_headers(options)
-      get 'messageheaders', options
-    end
-
-    def message_info(options)
-      get 'messageinfo', options
-    end
-
-    def message_text(options)
-      get 'messagetext', options
-    end
-
-    def related_files(options)
-      get 'relatedfiles', options
-    end
-
-    def thread_info(options)
-      get 'threadinfo', options
-    end
-
-    def search(options)
-      get 'search', options
-    end
-
-    def discover(options)
-      get 'imap/discover', options
-    end
-
-    def account_info(options)
-      get 'imap/accountinfo', options
-    end
-
-    def add_account(options)
-      get 'imap/addaccount', options
-    end
-
-    def modify_account(options)
-      get 'imap/modifyaccount', options
-    end
-
-    def remove_account
-      get 'imap/removeaccount'
-    end
-
-    def oauth_providers
-      get 'imap/oauthproviders'
-    end
-
-    def reset_status
-      get 'imap/resetstatus'
-    end
-
-    def download_file(options)
-      @token.get "/#{ContextIO::VERSION}/downloadfile?#{parametrize options}"
+    def deleteAllWebhooks(accountId)
+      webhooks = listWebhooks(accountId)
+      webhooks.each do |webhook|
+        deleteWebhook accountId, webhook["webhook_id"]
+      end
     end
 
     private
 
-    def url(*args)
-      if args.length == 1
-        "/#{ContextIO::VERSION}/#{args[0]}.json"
+    def url(accountId, url, *args)
+      if args.empty?
+        "/#{ContextIO::VERSION}/accounts/#{accountId}/#{url}"
       else
-        "/#{ContextIO::VERSION}/#{args.shift.to_s}.json?#{parametrize args.last}"
+        "/#{ContextIO::VERSION}/accounts/#{accountId}/#{url}?#{parametrize args}"
       end
     end
 
-    def get(*args)
-      @token.get(url(*args), "Accept" => "application/json").body
+    def get(accountId, url, *args)
+      response_body = @token.get(url(accountId, url, *args), "Accept" => "application/json").body
+      JSON.parse(response_body)
+    end
+
+    def post(accountId, url, parameters)
+      @token.post(url(accountId, url), parameters)
+    end
+
+    def delete(accountId, url, *args)
+      @token.delete(url(accountId, url, *args))
     end
 
     def parametrize(options)
